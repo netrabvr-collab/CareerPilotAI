@@ -37,4 +37,37 @@ def analyze_resume(resume_text: str) -> dict:
     {resume_text}
     """
     response = model.generate_content(prompt)
-    return {"raw": response.text}
+    raw = response.text
+
+    def parse_response(raw):
+        lines = raw.split("\n")
+        result = {
+            "ats_score": "",
+            "strengths": [],
+            "weaknesses": [],
+            "missing_keywords": [],
+            "summary": ""
+        }
+        current = None
+        for line in lines:
+            line = line.strip()
+            if line.startswith("ATS_SCORE:"):
+                result["ats_score"] = line.replace("ATS_SCORE:", "").strip()
+            elif line.startswith("STRENGTHS:"):
+                current = "strengths"
+            elif line.startswith("WEAKNESSES:"):
+                current = "weaknesses"
+            elif line.startswith("MISSING_KEYWORDS:"):
+                current = "missing_keywords"
+            elif line.startswith("SUMMARY:"):
+                current = "summary"
+            elif line.startswith("- ") and current in ["strengths", "weaknesses", "missing_keywords"]:
+                result[current].append(line[2:])
+            elif current == "summary" and line:
+                result["summary"] += line + " "
+        return result
+
+    return parse_response(raw)
+
+    
+

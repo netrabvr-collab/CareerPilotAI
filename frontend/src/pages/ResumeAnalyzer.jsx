@@ -38,7 +38,12 @@ export default function ResumeAnalyzer() {
           disabled={!file || loading}
           className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold disabled:opacity-50"
         >
-          {loading ? "Analyzing..." : "Analyze Resume"}
+        {loading && (
+          <div className="flex items-center gap-3 text-blue-400 mb-4">
+            <div className="w-6 h-6 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"/>
+            <p>Analyzing your resume with AI...</p>
+          </div>
+        )}
         </button>
       </div>
 
@@ -47,11 +52,51 @@ export default function ResumeAnalyzer() {
 
       {/* Result */}
       {result && (
-        <div className="bg-gray-800 p-6 rounded-xl whitespace-pre-wrap">
-          <h2 className="text-xl font-bold mb-4">Analysis Result</h2>
-          <p className="text-gray-300">{result}</p>
-        </div>
-      )}
+      <div className="space-y-6">
+
+      {/* ATS Score */}
+      <div className="bg-gray-800 p-6 rounded-xl text-center">
+        <p className="text-gray-400 mb-2">ATS Score</p>
+        <p className="text-6xl font-bold text-blue-400">{result.ats_score}</p>
+        <p className="text-gray-400 mt-2">out of 100</p>
+      </div>
+
+      {/* Strengths */}
+      <div className="bg-gray-800 p-6 rounded-xl">
+        <h3 className="text-green-400 font-bold text-lg mb-3">✅ Strengths</h3>
+        {result.strengths.map((s, i) => (
+          <p key={i} className="text-gray-300 mb-1">• {s}</p>
+        ))}
+      </div>
+
+      {/* Weaknesses */}
+      <div className="bg-gray-800 p-6 rounded-xl">
+        <h3 className="text-red-400 font-bold text-lg mb-3">⚠️ Weaknesses</h3>
+        {result.weaknesses.map((w, i) => (
+          <p key={i} className="text-gray-300 mb-1">• {w}</p>
+        ))}
+      </div>
+
+      {/* Missing Keywords */}
+      <div className="bg-gray-800 p-6 rounded-xl">
+        <h3 className="text-yellow-400 font-bold text-lg mb-3">🔑 Missing Keywords</h3>
+          <div className="flex flex-wrap gap-2">
+            {result.missing_keywords.map((k, i) => (
+              <span key={i} className="bg-yellow-900 text-yellow-300 px-3 py-1 rounded-full text-sm">
+              {k}
+              </span>
+            ))}
+          </div>
+      </div>
+
+      {/* Summary */}
+     <div className="bg-gray-800 p-6 rounded-xl">
+      <h3 className="text-purple-400 font-bold text-lg mb-3">📝 Summary</h3>
+      <p className="text-gray-300">{result.summary}</p>
+    </div>
+
+  </div>
+)}
     </div>
   );
 }
