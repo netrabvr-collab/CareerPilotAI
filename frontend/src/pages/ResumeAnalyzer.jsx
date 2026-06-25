@@ -27,25 +27,28 @@ export default function ResumeAnalyzer() {
 
       {/* Upload */}
       <div className="bg-gray-800 p-6 rounded-xl mb-6">
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={(e) => setFile(e.target.files[0])}
-          className="mb-4 block"
-        />
-        <button
-          onClick={handleAnalyze}
-          disabled={!file || loading}
-          className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold disabled:opacity-50"
-        >
-        {loading && (
-          <div className="flex items-center gap-3 text-blue-400 mb-4">
-            <div className="w-6 h-6 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"/>
-            <p>Analyzing your resume with AI...</p>
-          </div>
-        )}
-        </button>
-      </div>
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={(e) => setFile(e.target.files[0])}
+        className="mb-4 block"
+      />
+      <button
+        onClick={handleAnalyze}
+        disabled={!file || loading}
+        className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold disabled:opacity-50"
+      >
+      {loading ? "Analyzing..." : "Analyze Resume"}
+      </button>
+    </div>
+
+      {/* Spinner — OUTSIDE the button */}
+    {loading && (
+      <div className="flex items-center gap-3 text-blue-400 mb-4">
+    <div className="w-6 h-6 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"/>
+    <p>Analyzing your resume with AI...</p>
+  </div>
+)}
 
       {/* Error */}
       {error && <p className="text-red-400 mb-4">{error}</p>}

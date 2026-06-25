@@ -1,7 +1,18 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 
 function App() {
-  return <ResumeAnalyzer />;
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/analyze" element={<ResumeAnalyzer />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
