@@ -1,0 +1,157 @@
+* {
+  box-sizing: border-box;
+}
+
+.skillgap-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  padding: 40px;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.skillgap-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #60a5fa;
+}
+
+.input-card,
+.result-card {
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.label {
+  color: #cbd5e1;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.jd-textarea {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  color: white;
+  resize: none;
+  outline: none;
+}
+
+.jd-textarea:focus {
+  border-color: #60a5fa;
+}
+
+.analyze-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.analyze-btn:hover {
+  background: #1d4ed8;
+}
+
+.analyze-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
+  color: #60a5fa;
+}
+
+.spinner {
+  width: 25px;
+  height: 25px;
+  border: 4px solid #60a5fa;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: #ef4444;
+  margin-top: 15px;
+}
+
+.results-section {
+  margin-top: 30px;
+}
+
+.score-card {
+  text-align: center;
+}
+
+.score-card h2 {
+  font-size: 4rem;
+  color: #60a5fa;
+  margin: 10px 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.matched {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.missing {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+.matched-title {
+  color: #4ade80;
+}
+
+.missing-title {
+  color: #f87171;
+}
+
+.recommend-title {
+  color: #facc15;
+}
+
+.verdict-title {
+  color: #c084fc;
+}
+
+.recommend-item {
+  margin-bottom: 8px;
+  color: #d1d5db;
+}

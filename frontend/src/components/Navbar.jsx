@@ -11,6 +11,8 @@ function Navbar() {
             Home</Link>
             <Link to='/analyze' className={location.pathname==='/analyze'? 'active':''}>
             Resume Analyzer</Link>
+            <Link to='/skillgap' classNmae={location.pathname==='/skillgap'?'active':''}>
+            Skill Gap</Link>
         </div>
     </nav>
   );
