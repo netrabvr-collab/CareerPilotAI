@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import SkillGap from './pages/SkillGap';
+import MockInterview from './pages/MockInterview';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/analyze" element={<ResumeAnalyzer />} />
         <Route path='/skillgap' element={<SkillGap />} />
+        <Route path="/interview" element={<MockInterview />} />
       </Routes>
     </BrowserRouter>
   );

@@ -13,7 +13,7 @@ export default function ResumeAnalyzer() {
     setError(null);
     try {
       const data = await analyzeResume(file);
-      setResult(data.raw);
+      setResult(data);
     } catch (err) {
       setError("Something went wrong. Try again.");
     } finally {

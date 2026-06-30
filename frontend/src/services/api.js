@@ -29,3 +29,24 @@ export const analyzeSkillGap = async (file, jdText) => {
   });
   return response.data;
 };
+
+export const generateQuestions = async (file, role) => {
+  const formData = new FormData();
+  formData.append("resume", file);
+  formData.append("role", role);
+
+  const response = await axios.post(`${BASE_URL}/interview/generate-questions`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+  return response.data;
+};
+
+export const evaluateAnswer = async (question, answer) => {
+  const response = await axios.post(`${BASE_URL}/interview/evaluate-answer`, {
+    question,
+    answer,
+  });
+
+  return response.data;
+};

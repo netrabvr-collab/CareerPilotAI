@@ -1,5 +1,4 @@
 import os
-import time
 import google.generativeai as genai
 from dotenv import load_dotenv
 from google.api_core.exceptions import ResourceExhausted
@@ -31,7 +30,9 @@ def parse_response(raw: str) -> dict:
         line = line.strip()
 
         if line.startswith("ATS_SCORE:"):
-            result["ats_score"] = line.replace("ATS_SCORE:", "").strip()
+            result["ats_score"] = (
+                line.replace("ATS_SCORE:", "").strip()
+            )
 
         elif line.startswith("STRENGTHS:"):
             current = "strengths"
@@ -45,11 +46,14 @@ def parse_response(raw: str) -> dict:
         elif line.startswith("SUMMARY:"):
             current = "summary"
 
-        elif line.startswith("- ") and current in [
-            "strengths",
-            "weaknesses",
-            "missing_keywords",
-        ]:
+        elif (
+            line.startswith("- ")
+            and current in [
+                "strengths",
+                "weaknesses",
+                "missing_keywords",
+            ]
+        ):
             result[current].append(line[2:])
 
         elif current == "summary" and line:
@@ -91,33 +95,39 @@ Resume:
 {resume_text}
 """
 
-    for attempt in range(3):
-        try:
-            response = model.generate_content(prompt)
+    try:
+        response = model.generate_content(prompt)
 
-            raw = response.text
-
-            return parse_response(raw)
-
-        except ResourceExhausted as e:
-            print("FULL ERROR:")
-            print(repr(e))
-            raise
-
-        except Exception as e:
-            print("Gemini Error:", e)
+        if not hasattr(response, "text") or not response.text:
             return {
                 "ats_score": "0",
                 "strengths": [],
                 "weaknesses": [],
                 "missing_keywords": [],
-                "summary": f"Error: {str(e)}"
+                "summary": "Gemini returned an empty response."
             }
 
-    return {
-        "ats_score": "0",
-        "strengths": [],
-        "weaknesses": [],
-        "missing_keywords": [],
-        "summary": "Gemini API quota exceeded. Please try again later."
-    }
+        return parse_response(response.text)
+
+    except ResourceExhausted:
+        return {
+            "ats_score": "0",
+            "strengths": [],
+            "weaknesses": [],
+            "missing_keywords": [],
+            "summary": (
+                "Gemini API quota exceeded. "
+                "Please try again later or use a different API key."
+            )
+        }
+
+    except Exception as e:
+        print("Gemini Error:", e)
+
+        return {
+            "ats_score": "0",
+            "strengths": [],
+            "weaknesses": [],
+            "missing_keywords": [],
+            "summary": f"Error: {str(e)}"
+        }

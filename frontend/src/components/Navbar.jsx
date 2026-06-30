@@ -13,6 +13,8 @@ function Navbar() {
             Resume Analyzer</Link>
             <Link to='/skillgap' classNmae={location.pathname==='/skillgap'?'active':''}>
             Skill Gap</Link>
+            <Link to='/interview' className={location.pathname ==='/interview'? 'active':''}>
+            Mock Interview</Link>
         </div>
     </nav>
   );
