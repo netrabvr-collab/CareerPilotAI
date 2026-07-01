@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { generateQuestions, evaluateAnswer } from "../services/api";
 import "./MockInterview.css";
+import InterviewSummary from "./InterviewSummary";
 
 export default function MockInterview() {
   const [file, setFile] = useState(null);
@@ -11,6 +12,7 @@ export default function MockInterview() {
   const [feedback, setFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
   const [stage, setStage] = useState("setup");
+  const [history, setHistory] = useState([]);
 
   const handleStart = async () => {
     if (!file || !role) return;
@@ -28,31 +30,39 @@ export default function MockInterview() {
     }
   };
 
-  const handleSubmitAnswer = async () => {
-    if (!answer) return;
-
-    setLoading(true);
-
-    try {
-      const data = await evaluateAnswer(
-        questions[currentIndex].question,
-        answer
-      );
-
-      setFeedback(data);
-      setStage("feedback");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   const handleNext = () => {
     setAnswer("");
     setFeedback(null);
     setStage("interview");
     setCurrentIndex((prev) => prev + 1);
+  };
+
+  const handleSubmitAnswer = async () => {
+    if (!answer) return;
+    setLoading(true);
+    try {
+      const data = await evaluateAnswer(questions[currentIndex].question, answer);
+      setFeedback(data);
+
+      setHistory(prev => [...prev, {
+        question: questions[currentIndex].question,
+        type: questions[currentIndex].type,
+        answer,
+        score: data.score,
+        feedback: data.feedback,
+        improved_answer: data.improved_answer
+      }]);
+
+      setStage("feedback");
+
+    }
+    catch(err){
+      console.error(err);
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -97,6 +107,26 @@ export default function MockInterview() {
             Question {currentIndex + 1} of {questions.length} ·{" "}
             {questions[currentIndex].type}
           </p>
+          
+          <div className="progress-container">
+            <div className="progress-header">
+              <span>Progress</span>
+              <span>
+                {currentIndex + 1} / {questions.length}
+              </span>
+            </div>
+
+            <div className="progress-track">
+              <div
+                className="progress-fill"
+                style={{
+                  width: `${((currentIndex + 1) / questions.length) * 100}%`,
+                }}
+              />
+            </div>
+            </div>
+
+
 
           <h2 className="question-text">
             {questions[currentIndex].question}
@@ -124,7 +154,26 @@ export default function MockInterview() {
         <div className="card feedback-card">
           <div className="score-section">
             <p>Score</p>
-            <h2>{feedback.score}/10</h2>
+
+            <h2
+              className={`score-value ${
+                parseInt(feedback.score) >= 7
+                  ? "score-good"
+                  : parseInt(feedback.score) >= 5
+                  ? "score-average"
+                  : "score-poor"
+              }`}
+            >
+              {feedback.score}/10
+            </h2>
+
+            <p className="score-message">
+              {parseInt(feedback.score) >= 7
+                ? "Great answer!"
+                : parseInt(feedback.score) >= 5
+                ? "Decent — room to improve"
+                : "Needs work — read the example below"}
+            </p>
           </div>
 
           <div>
@@ -145,12 +194,43 @@ export default function MockInterview() {
               Next Question →
             </button>
           ) : (
-            <p className="complete-message">
-              Interview Complete!
-            </p>
+            <button
+              onClick={() => setStage("summary")}
+              className="primary-btn"
+            >
+              View Interview Summary
+            </button>
           )}
         </div>
       )}
+
+      {stage === "summary" && (
+        <InterviewSummary
+          history={history}
+          questions={questions}
+          setStage={setStage}
+          setQuestions={setQuestions}
+          setHistory={setHistory}
+          setCurrentIndex={setCurrentIndex}
+          setAnswer={setAnswer}
+          setFeedback={setFeedback}
+        />
+        )}
+
+      {currentIndex + 1 >= questions.length &&
+      history.length === questions.length && (
+        <InterviewSummary
+          history={history}
+          questions={questions}
+          setStage={setStage}
+          setQuestions={setQuestions}
+          setHistory={setHistory}
+          setCurrentIndex={setCurrentIndex}
+          setAnswer={setAnswer}
+          setFeedback={setFeedback}
+        />
+      )}
+
     </div>
   );
 }

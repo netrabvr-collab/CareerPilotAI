@@ -1,0 +1,70 @@
+.summary-container {
+  max-width: 900px;
+}
+
+.overall-score-card {
+  background: #1e293b;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.overall-label {
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.overall-score {
+  font-size: 4rem;
+  color: #60a5fa;
+}
+
+.summary-heading {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.summary-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.question-type {
+  color: #60a5fa;
+  font-size: 0.9rem;
+}
+
+.score-badge {
+  font-weight: bold;
+}
+
+.good {
+  color: #22c55e;
+}
+
+.average {
+  color: #facc15;
+}
+
+.poor {
+  color: #ef4444;
+}
+
+.summary-question {
+  color: #e2e8f0;
+  margin-bottom: 10px;
+}
+
+.summary-feedback {
+  color: #94a3b8;
+}
