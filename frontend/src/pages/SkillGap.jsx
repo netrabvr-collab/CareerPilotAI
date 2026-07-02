@@ -19,98 +19,114 @@ export default function SkillGap() {
       const data = await analyzeSkillGap(file, jdText);
       setResult(data);
     } catch (err) {
-      setError("Something went wrong. Try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="skillgap-container">
-      <h1 className="skillgap-title">Skill Gap Analyzer</h1>
+    <div className="page">
+      <h1 className="title">Skill Gap Analyzer</h1>
+      <p className="sub">
+        Compare your resume against any job description
+      </p>
 
-      <div className="input-card">
-        <div>
-          <p className="label">Upload Resume (PDF)</p>
-          <input
-            type="file"
-            accept=".pdf"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+      {/* Inputs */}
+      <div className="card">
+        <div className="field">
+          <label className="label">Upload Resume (PDF)</label>
+          <label className="uploadLabel">
+            {file ? `📄 ${file.name}` : "Click to upload your resume"}
+            <input
+              type="file"
+              accept=".pdf"
+              className="hiddenInput"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+          </label>
         </div>
 
-        <div>
-          <p className="label">Paste Job Description</p>
+        <div className="field">
+          <label className="label">Paste Job Description</label>
           <textarea
+            className="textarea"
             rows={6}
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
             placeholder="Paste the full job description here..."
-            className="jd-textarea"
           />
         </div>
 
         <button
+          className="btn"
           onClick={handleAnalyze}
           disabled={!file || !jdText || loading}
-          className="analyze-btn"
         >
           {loading ? "Analyzing..." : "Analyze Skill Gap"}
         </button>
       </div>
 
+      {/* Spinner */}
       {loading && (
-        <div className="loader">
-          <div className="spinner"></div>
+        <div className="spinner">
+          <div className="spinnerDot"></div>
           <p>Comparing resume with job description...</p>
         </div>
       )}
 
+      {/* Error */}
       {error && <p className="error">{error}</p>}
 
+      {/* Results */}
       {result && (
-        <div className="results-section">
+        <div className="results animate-fadeIn">
 
-          <div className="result-card score-card">
-            <p>Match Score</p>
-            <h2>{result.match_score}</h2>
-            <span>out of 100</span>
+          {/* Match Score */}
+          <div className="resultCard scoreCard">
+            <p className="scoreLabel">Match Score</p>
+            <p className="scoreValue">{result.match_score}</p>
+            <p className="scoreLabel">out of 100</p>
           </div>
 
-          <div className="result-card">
-            <h3 className="matched-title">Matched Skills</h3>
+          {/* Matched Skills */}
+          <div className="resultCard">
+            <h3 className="sectionTitle green">Matched Skills</h3>
             <div className="tags">
-              {result.matched_skills.map((skill, index) => (
-                <span key={index} className="tag matched">
-                  {skill}
+              {result.matched_skills.map((s, i) => (
+                <span key={i} className="tag tagGreen">
+                  {s}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="result-card">
-            <h3 className="missing-title">Missing Skills</h3>
+          {/* Missing Skills */}
+          <div className="resultCard">
+            <h3 className="sectionTitle red">Missing Skills</h3>
             <div className="tags">
-              {result.missing_skills.map((skill, index) => (
-                <span key={index} className="tag missing">
-                  {skill}
+              {result.missing_skills.map((s, i) => (
+                <span key={i} className="tag tagRed">
+                  {s}
                 </span>
               ))}
             </div>
           </div>
 
-          <div className="result-card">
-            <h3 className="recommend-title">Recommendations</h3>
-            {result.recommendations.map((item, index) => (
-              <p key={index} className="recommend-item">
-                • {item}
+          {/* Recommendations */}
+          <div className="resultCard">
+            <h3 className="sectionTitle yellow">Recommendations</h3>
+            {result.recommendations.map((r, i) => (
+              <p key={i} className="item">
+                • {r}
               </p>
             ))}
           </div>
 
-          <div className="result-card">
-            <h3 className="verdict-title">Verdict</h3>
-            <p>{result.verdict}</p>
+          {/* Verdict */}
+          <div className="resultCard">
+            <h3 className="sectionTitle purple">Verdict</h3>
+            <p className="item">{result.verdict}</p>
           </div>
 
         </div>

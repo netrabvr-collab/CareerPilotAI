@@ -10,6 +10,7 @@
 .title { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
 .sub   { color: #9ca3af; margin-bottom: 2rem; }
 
+/* Upload Card */
 .card {
   background: #0f172a;
   border: 1px solid #1e293b;
@@ -18,11 +19,8 @@
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
-
-.field { display: flex; flex-direction: column; gap: 0.5rem; }
-.label { font-size: 0.85rem; font-weight: 500; color: #9ca3af; }
 
 .uploadLabel {
   display: flex;
@@ -30,28 +28,15 @@
   justify-content: center;
   border: 2px dashed #1e293b;
   border-radius: 10px;
-  padding: 1.25rem;
-  font-size: 0.875rem;
+  padding: 1.5rem;
+  font-size: 0.9rem;
   color: #9ca3af;
   cursor: pointer;
+  text-align: center;
 }
 .uploadLabel:hover { border-color: #3b82f6; color: #60a5fa; }
 
 .hiddenInput { display: none; }
-
-.textarea {
-  width: 100%;
-  background: #1e293b;
-  color: #f9fafb;
-  border: 1px solid #334155;
-  border-radius: 10px;
-  padding: 0.9rem;
-  font-size: 0.875rem;
-  resize: vertical;
-  font-family: inherit;
-  outline: none;
-}
-.textarea:focus { border-color: #3b82f6; }
 
 .btn {
   background: #2563eb;
@@ -67,6 +52,7 @@
 .btn:hover    { background: #1d4ed8; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* Spinner */
 .spinner {
   display: flex;
   align-items: center;
@@ -85,8 +71,10 @@
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* Error */
 .error { color: #f87171; margin-bottom: 1rem; font-size: 0.9rem; }
 
+/* Results */
 .results { display: flex; flex-direction: column; gap: 1.25rem; }
 
 .resultCard {
@@ -96,9 +84,9 @@
   padding: 1.5rem;
 }
 
-.scoreCard   { text-align: center; }
-.scoreLabel  { color: #9ca3af; font-size: 0.875rem; }
-.scoreValue  { font-size: 4rem; font-weight: 700; color: #60a5fa; line-height: 1.1; margin: 0.25rem 0; }
+.scoreCard { text-align: center; }
+.scoreLabel { color: #9ca3af; font-size: 0.875rem; }
+.scoreValue { font-size: 4rem; font-weight: 700; color: #60a5fa; line-height: 1.1; margin: 0.25rem 0; }
 
 .sectionTitle { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
 .green  { color: #4ade80; }
@@ -110,5 +98,4 @@
 
 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .tag  { font-size: 0.8rem; padding: 0.3rem 0.75rem; border-radius: 999px; font-weight: 500; }
-.tagGreen { background: #052e16; color: #4ade80; }
-.tagRed   { background: #450a0a; color: #f87171; }
+.tagYellow { background: #422006; color: #fbbf24; }

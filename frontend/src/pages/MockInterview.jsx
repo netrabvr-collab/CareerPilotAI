@@ -217,20 +217,7 @@ export default function MockInterview() {
         />
         )}
 
-      {currentIndex + 1 >= questions.length &&
-      history.length === questions.length && (
-        <InterviewSummary
-          history={history}
-          questions={questions}
-          setStage={setStage}
-          setQuestions={setQuestions}
-          setHistory={setHistory}
-          setCurrentIndex={setCurrentIndex}
-          setAnswer={setAnswer}
-          setFeedback={setFeedback}
-        />
-      )}
-
+      
     </div>
   );
 }

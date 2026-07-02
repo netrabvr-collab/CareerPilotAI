@@ -1,49 +1,65 @@
-import { useNavigate } from 'react-router-dom';
-import './Home.css';
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
 
-function Home() {
-    const navigate = useNavigate();
-    const features = [
-        {
-            title:'ATS Scoring',
-            desc: "See exactly how reacruiters' systems score your resume",
-        },
-        {
-            title:'Skill Gap Analysis',
-            desc: "Find missing keywords before applying",
-        },
-        {
-            title:'AI Feedback',
-            desc: "Get personalized suggestions to improve instantly",
-        },
-    ];
+const features = [
+  {
+    icon: "📄",
+    title: "ATS Scoring",
+    desc: "See exactly how recruiters' systems score your resume and what's holding you back.",
+    path: "/analyze",
+  },
+  {
+    icon: "🔍",
+    title: "Skill Gap Analysis",
+    desc: "Paste any job description and instantly find what skills you're missing.",
+    path: "/skillgap",
+  },
+  {
+    icon: "🎯",
+    title: "Mock Interview",
+    desc: "Practice with AI-generated questions tailored to your resume and target role.",
+    path: "/interview",
+  },
+];
+
+export default function Home() {
+  const navigate = useNavigate();
+
   return (
-    <div className="home">
-      <h1>Your AI Career Coach</h1>
+    <div className="page">
 
-      <p className="subtitle">
-        Upload your resume, get ATS score, find skill gaps,
-        and ace your interviews — all powered by AI.
-      </p>
+      {/* Hero */}
+      <section className="hero">
+        <span className="badge">Powered by Gemini AI</span>
+        <h1 className="heading">
+          Land your dream job <br />
+          <span className="highlight">with AI on your side</span>
+        </h1>
+        <p className="sub">
+          Analyze your resume, close skill gaps, and ace mock interviews —
+          all in one place, completely free.
+        </p>
+        <button className="cta" onClick={() => navigate("/analyze")}>
+          Analyze My Resume →
+        </button>
+      </section>
 
-      <button
-        className="analyze-btn"
-        onClick={() => navigate("/analyze")}
-      >
-        Analyze My Resume →
-      </button>
-
-      <div className="features">
-        {features.map((feature, index) => (
-          <div key={index} className="card">
-            <p className="icon">{feature.icon}</p>
-            <p className="title">{feature.title}</p>
-            <p className="description">{feature.desc}</p>
+      {/* Feature Cards */}
+      <section className="grid">
+        {features.map((f, i) => (
+          <div
+            key={i}
+            className="card"
+            onClick={() => navigate(f.path)}
+          >
+            <span className="cardIcon">{f.icon}</span>
+            <h3 className="cardTitle">{f.title}</h3>
+            <p className="cardDesc">{f.desc}</p>
+            <span className="cardLink">Try it →</span>
           </div>
         ))}
-      </div>
+      </section>
+
     </div>
   );
 }
-
-export default Home;

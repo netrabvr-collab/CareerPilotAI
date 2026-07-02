@@ -1,23 +1,36 @@
-import { Link, useLocation } from 'react-router-dom';
-import './Navbar.css';
-function Navbar() {
-    const location = useLocation();
-  return (
-    <nav className='navbar'>
-        <h1>AI Career Copilot</h1>
+import { Link, useLocation } from "react-router-dom";
+import "./Navbar.css";
 
-        <div className='nav-links'>
-            <Link to='/' className={location.pathname==='/'? 'active':''}>
-            Home</Link>
-            <Link to='/analyze' className={location.pathname==='/analyze'? 'active':''}>
-            Resume Analyzer</Link>
-            <Link to='/skillgap' classNmae={location.pathname==='/skillgap'?'active':''}>
-            Skill Gap</Link>
-            <Link to='/interview' className={location.pathname ==='/interview'? 'active':''}>
-            Mock Interview</Link>
-        </div>
+const links = [
+  { path: "/", label: "Home" },
+  { path: "/analyze", label: "Resume Analyzer" },
+  { path: "/skillgap", label: "Skill Gap" },
+  { path: "/interview", label: "Mock Interview" },
+];
+
+export default function Navbar() {
+  const location = useLocation();
+
+  return (
+    <nav className="nav">
+      <div className="brand">
+        
+        <span className="brandName">AI Career Copilot</span>
+      </div>
+
+      <div className="links">
+        {links.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={`link ${
+              location.pathname === link.path ? "active" : ""
+            }`}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }
-
-export default Navbar

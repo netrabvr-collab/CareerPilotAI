@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { analyzeResume } from "../services/api";
+import "./ResumeAnalyzer.css";
 
 export default function ResumeAnalyzer() {
   const [file, setFile] = useState(null);
@@ -9,97 +10,110 @@ export default function ResumeAnalyzer() {
 
   const handleAnalyze = async () => {
     if (!file) return;
+
     setLoading(true);
     setError(null);
+
     try {
       const data = await analyzeResume(file);
       setResult(data);
     } catch (err) {
-      setError("Something went wrong. Try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-10">
-      <h1 className="text-3xl font-bold mb-6">Resume Analyzer</h1>
+    <div className="page">
+      <h1 className="title">Resume Analyzer</h1>
+      <p className="sub">
+        Upload your resume and get instant AI feedback
+      </p>
 
-      {/* Upload */}
-      <div className="bg-gray-800 p-6 rounded-xl mb-6">
-      <input
-        type="file"
-        accept=".pdf"
-        onChange={(e) => setFile(e.target.files[0])}
-        className="mb-4 block"
-      />
-      <button
-        onClick={handleAnalyze}
-        disabled={!file || loading}
-        className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold disabled:opacity-50"
-      >
-      {loading ? "Analyzing..." : "Analyze Resume"}
-      </button>
-    </div>
+      {/* Upload Card */}
+      <div className="card">
+        <label className="uploadLabel">
+          {file ? `📄 ${file.name}` : "Click to upload your resume (PDF)"}
+          <input
+            type="file"
+            accept=".pdf"
+            className="hiddenInput"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+        </label>
 
-      {/* Spinner — OUTSIDE the button */}
-    {loading && (
-      <div className="flex items-center gap-3 text-blue-400 mb-4">
-    <div className="w-6 h-6 border-4 border-blue-400 border-t-transparent rounded-full animate-spin"/>
-    <p>Analyzing your resume with AI...</p>
-  </div>
-)}
+        <button
+          className="btn"
+          onClick={handleAnalyze}
+          disabled={!file || loading}
+        >
+          {loading ? "Analyzing..." : "Analyze Resume"}
+        </button>
+      </div>
+
+      {/* Spinner */}
+      {loading && (
+        <div className="spinner">
+          <div className="spinnerDot"></div>
+          <p>Analyzing your resume with AI...</p>
+        </div>
+      )}
 
       {/* Error */}
-      {error && <p className="text-red-400 mb-4">{error}</p>}
+      {error && <p className="error">{error}</p>}
 
-      {/* Result */}
+      {/* Results */}
       {result && (
-      <div className="space-y-6">
+        <div className="results animate-fadeIn">
 
-      {/* ATS Score */}
-      <div className="bg-gray-800 p-6 rounded-xl text-center">
-        <p className="text-gray-400 mb-2">ATS Score</p>
-        <p className="text-6xl font-bold text-blue-400">{result.ats_score}</p>
-        <p className="text-gray-400 mt-2">out of 100</p>
-      </div>
+          {/* ATS Score */}
+          <div className="resultCard scoreCard">
+            <p className="scoreLabel">ATS Score</p>
+            <p className="scoreValue">{result.ats_score}</p>
+            <p className="scoreLabel">out of 100</p>
+          </div>
 
-      {/* Strengths */}
-      <div className="bg-gray-800 p-6 rounded-xl">
-        <h3 className="text-green-400 font-bold text-lg mb-3">✅ Strengths</h3>
-        {result.strengths.map((s, i) => (
-          <p key={i} className="text-gray-300 mb-1">• {s}</p>
-        ))}
-      </div>
-
-      {/* Weaknesses */}
-      <div className="bg-gray-800 p-6 rounded-xl">
-        <h3 className="text-red-400 font-bold text-lg mb-3">⚠️ Weaknesses</h3>
-        {result.weaknesses.map((w, i) => (
-          <p key={i} className="text-gray-300 mb-1">• {w}</p>
-        ))}
-      </div>
-
-      {/* Missing Keywords */}
-      <div className="bg-gray-800 p-6 rounded-xl">
-        <h3 className="text-yellow-400 font-bold text-lg mb-3">🔑 Missing Keywords</h3>
-          <div className="flex flex-wrap gap-2">
-            {result.missing_keywords.map((k, i) => (
-              <span key={i} className="bg-yellow-900 text-yellow-300 px-3 py-1 rounded-full text-sm">
-              {k}
-              </span>
+          {/* Strengths */}
+          <div className="resultCard">
+            <h3 className="sectionTitle green">✅ Strengths</h3>
+            {result.strengths.map((s, i) => (
+              <p key={i} className="item">
+                • {s}
+              </p>
             ))}
           </div>
-      </div>
 
-      {/* Summary */}
-     <div className="bg-gray-800 p-6 rounded-xl">
-      <h3 className="text-purple-400 font-bold text-lg mb-3">📝 Summary</h3>
-      <p className="text-gray-300">{result.summary}</p>
-    </div>
+          {/* Weaknesses */}
+          <div className="resultCard">
+            <h3 className="sectionTitle red">⚠️ Weaknesses</h3>
+            {result.weaknesses.map((w, i) => (
+              <p key={i} className="item">
+                • {w}
+              </p>
+            ))}
+          </div>
 
-  </div>
-)}
+          {/* Missing Keywords */}
+          <div className="resultCard">
+            <h3 className="sectionTitle yellow">🔑 Missing Keywords</h3>
+            <div className="tags">
+              {result.missing_keywords.map((k, i) => (
+                <span key={i} className="tag tagYellow">
+                  {k}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Summary */}
+          <div className="resultCard">
+            <h3 className="sectionTitle purple">📝 Summary</h3>
+            <p className="item">{result.summary}</p>
+          </div>
+
+        </div>
+      )}
     </div>
   );
 }

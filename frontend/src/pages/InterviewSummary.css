@@ -1,70 +1,110 @@
+/* ── Summary Container ── */
 .summary-container {
-  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  animation: fadeIn 0.3s ease forwards;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Overall Score Card ── */
 .overall-score-card {
-  background: #1e293b;
-  padding: 30px;
-  border-radius: 16px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  padding: 2rem;
   text-align: center;
-  margin-bottom: 25px;
 }
 
 .overall-label {
-  color: #94a3b8;
-  margin-bottom: 10px;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
 }
 
 .overall-score {
   font-size: 4rem;
+  font-weight: 700;
   color: #60a5fa;
+  line-height: 1;
 }
 
+/* ── Heading ── */
 .summary-heading {
-  margin-bottom: 20px;
-  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f9fafb;
+  margin-top: 0.5rem;
 }
 
+/* ── Individual Question Card ── */
 .summary-card {
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 14px;
-  margin-bottom: 15px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .summary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
 }
 
 .question-type {
+  font-size: 0.8rem;
   color: #60a5fa;
-  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+/* ── Score Badge ── */
 .score-badge {
-  font-weight: bold;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
 }
 
-.good {
-  color: #22c55e;
-}
+.score-badge.good    { background: #052e16; color: #4ade80; }
+.score-badge.average { background: #422006; color: #fbbf24; }
+.score-badge.poor    { background: #450a0a; color: #f87171; }
 
-.average {
-  color: #facc15;
-}
-
-.poor {
-  color: #ef4444;
-}
-
+/* ── Question + Feedback Text ── */
 .summary-question {
-  color: #e2e8f0;
-  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .summary-feedback {
-  color: #94a3b8;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  line-height: 1.6;
 }
+
+/* ── Restart Button ── */
+.primary-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  font-family: inherit;
+  margin-top: 0.5rem;
+}
+.primary-btn:hover { background: #1d4ed8; }
